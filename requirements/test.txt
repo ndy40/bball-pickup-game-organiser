@@ -1,0 +1,7 @@
+-r requirements.txt
+
+pytest~=6.2.5
+flake8
+coverage
+pytest-cov
+pytest-mock
