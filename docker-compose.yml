@@ -14,9 +14,11 @@ services:
       - ${PWD}/backend/:/opt/code
     networks:
       - web
+      - database
 
   reverse_proxy:
     image: nginx:1.21-alpine
+    restart: always
     volumes:
       - ${PWD}/docker/nginx/app.conf:/etc/nginx/conf.d/default.conf
       - ${PWD}/web:/opt/react
@@ -26,6 +28,19 @@ services:
       - web
     networks:
       - web
+  db:
+    image: mongo:5.0
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME:-root}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD:-example}
+    volumes:
+      - ./data/mongo:/data/db
+    networks:
+      - database
 
 networks:
   web:
+  database:
