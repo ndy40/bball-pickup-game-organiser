@@ -1,2 +1,7 @@
 .idea/
-Pipfile
+Pipfile*
+.tox
+.pytest_cache
+data/*
+__pycache__*
+.env

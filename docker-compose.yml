@@ -8,10 +8,15 @@ services:
     restart: unless-stopped
     ports:
       - "8000"
+    env_file:
+      - .env
     environment:
       APP_ENV: ${APP_ENV:-dev}
+      MONGO_USERNAME: ${MONGO_USERNAME}
+      MONGO_PASSWORD: ${MONGO_PASSWORD}
+      APP_DATABASE: ${APP_DATABASE}
     volumes:
-      - ${PWD}/backend/:/opt/code
+      - ${PWD}/backend/:/opt/code/backend
     networks:
       - web
       - database
@@ -36,8 +41,12 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME:-root}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD:-example}
+      MONGO_INITDB_DATABASE: ${APP_DATABASE}
+      MONGO_USERNAME: ${MONGO_USERNAME}
+      MONGO_PASSWORD: ${MONGO_PASSWORD}
     volumes:
       - ./data/mongo:/data/db
+      - ./docker/mongo/init.sh:/docker-entrypoint-initdb.d/init.sh
     networks:
       - database
 
