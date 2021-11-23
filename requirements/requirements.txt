@@ -2,3 +2,4 @@ pymongo==3.12.1
 fastapi
 pydantic
 uvicorn==0.15.0
+python-jose==3.3.0

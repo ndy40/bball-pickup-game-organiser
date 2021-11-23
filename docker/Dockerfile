@@ -2,13 +2,14 @@ FROM python:3.9
 
 ENV PYTHONUNBUFFERED 1
 
-RUN mkdir /opt/code && mkdir /opt/requirements
+RUN mkdir -p /opt/code && mkdir /opt/requirements
 WORKDIR /opt/code
 
 ADD requirements /opt/requirements
 RUN pip install --no-cache-dir --upgrade -r /opt/requirements/requirements.txt
 
-COPY backend/ .
+COPY backend /opt/code/backend
+COPY wsgi.py /opt/code/wsgi.py
 
 EXPOSE 8000
 
