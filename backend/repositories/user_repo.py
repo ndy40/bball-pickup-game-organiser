@@ -31,3 +31,12 @@ class UserRepo(MongoRepo):
             raise ValueError(f"user {username} not found")
 
         return User(**result)
+
+    def find_by_id(self, user_id: str):
+        user = self.collection.find_one({'_id': ObjectId(user_id)})
+
+        if not user:
+            raise ValueError('User not found')
+
+        return User(**user)
+

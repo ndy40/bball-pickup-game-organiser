@@ -13,9 +13,11 @@ class Settings(BaseSettings):
 
     app_secrets: str = Field(env="secrets", default=secrets.token_urlsafe(32))
 
-    JWT_EXPIRE_TIMEOUT: Optional[str] = 30
+    JWT_EXPIRE_TIMEOUT: Optional[int] = 3600
     JWT_ALGORITHM: str = "HS256"
     JWT_SECRET_KEY: str
+
+    INSECURE_ROUTES = {'post:/api/users', 'post:/api/login'}
 
     SERVER_HOST: str = "http://localhost"
 
