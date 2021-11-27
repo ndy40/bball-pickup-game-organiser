@@ -1,12 +1,13 @@
 from datetime import datetime, timezone
 import random
+from urllib.parse import quote
 from typing import Callable, Dict
 
 from backend.domain.exceptions import UserExistsError
 from backend.infrastructure.rest import CreateUserRequest, LoginRequest
 from backend.domain.models import User, Token
 from backend.repositories.user_repo import UserRepo
-from backend.infrastructure.security import create_token
+from backend.infrastructure.security import create_token, JWT_AUDIENCE_EVENTS
 
 
 PROFILE_COLOURS = ["87fc93", "359b3b", "5e2b6a", "473e54", "6113c9"]
@@ -23,7 +24,7 @@ def register_user_use_case(request: CreateUserRequest, repo: UserRepo) -> User o
         "first_seen": datetime.now(tz=timezone.utc),
     }
 
-    params["avatar"] = AVATAR_URL.format(request.username, params["profile_colour"])
+    params["avatar"] = AVATAR_URL.format(quote(request.username), params["profile_colour"])
 
     user = repo.create(User(**params))
 
@@ -41,7 +42,7 @@ def login_user_use_case(
         raise ValueError("User does not exists")
 
     user = repo.find_user(username=request.username)
-    user.token = token_factory({"sub": request.username, "aud": "players"})
+    user.token = token_factory({"sub": str(user.id), 'aud': JWT_AUDIENCE_EVENTS})
     user.last_login = datetime.now(tz=timezone.utc)
 
     updated_user = repo.update(user)

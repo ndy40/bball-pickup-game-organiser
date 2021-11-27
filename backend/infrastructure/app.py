@@ -1,22 +1,13 @@
 from typing import Optional
+
 from pydantic import BaseModel
-from fastapi import FastAPI, Request, APIRouter, Response, status
+from fastapi import APIRouter, Depends, FastAPI, Request, Response, status
 
 from backend.infrastructure.rest.user import user_routes
-
+from backend.infrastructure.security import JWTKey
 
 api_route = APIRouter(prefix="/api")
-api_route.include_router(user_routes)
-
-
-@api_route.get("/")
-def hello(request: Request):
-    return Response(content="Hello world", status_code=status.HTTP_200_OK)
-
-
-class Filter(BaseModel):
-    age__lt: Optional[int]
-    date_gt: Optional[int]
+api_route.include_router(user_routes, dependencies=[Depends(JWTKey(name='x-api-key'))])
 
 
 def create_app():
