@@ -24,7 +24,9 @@ def register_user_use_case(request: CreateUserRequest, repo: UserRepo) -> User o
         "first_seen": datetime.now(tz=timezone.utc),
     }
 
-    params["avatar"] = AVATAR_URL.format(quote(request.username), params["profile_colour"])
+    params["avatar"] = AVATAR_URL.format(
+        quote(request.username), params["profile_colour"]
+    )
 
     user = repo.create(User(**params))
 
@@ -42,7 +44,7 @@ def login_user_use_case(
         raise ValueError("User does not exists")
 
     user = repo.find_user(username=request.username)
-    user.token = token_factory({"sub": str(user.id), 'aud': JWT_AUDIENCE_EVENTS})
+    user.token = token_factory({"sub": str(user.id), "aud": JWT_AUDIENCE_EVENTS})
     user.last_login = datetime.now(tz=timezone.utc)
 
     updated_user = repo.update(user)
