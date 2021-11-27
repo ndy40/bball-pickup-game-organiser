@@ -66,10 +66,14 @@ def login_user(login: LoginRequest, repo: UserRepo = Depends(user_repo)):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
 
 
-@user_routes.get('/profile', response_model=UserProfileResponse, response_model_by_alias=False)
+@user_routes.get(
+    "/profile", response_model=UserProfileResponse, response_model_by_alias=False
+)
 def profile(request: Request, repo: UserRepo = Depends(user_repo)):
     try:
-        token = decode_jwt(request.headers.get('x-api-key'))
-        return repo.find_by_id(user_id=token['sub'])
+        token = decode_jwt(request.headers.get("x-api-key"))
+        return repo.find_by_id(user_id=token["sub"])
     except Exception:
-        raise HTTPException(detail='profile not found', status_code=status.HTTP_403_FORBIDDEN)
+        raise HTTPException(
+            detail="profile not found", status_code=status.HTTP_403_FORBIDDEN
+        )
