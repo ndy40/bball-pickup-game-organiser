@@ -1,13 +1,9 @@
-from fastapi import APIRouter, Depends, FastAPI
+from fastapi import FastAPI
 
-from backend.infrastructure.rest.user import user_routes
-from backend.infrastructure.security import JWTKey
-
-api_route = APIRouter(prefix="/api")
-api_route.include_router(user_routes, dependencies=[Depends(JWTKey(name="x-api-key"))])
+from backend.infrastructure.rest import api_route
 
 
 def create_app():
     app = FastAPI()
-    app.include_router(api_route, tags=["api"])
+    app.include_router(api_route, tags=['user'])
     return app

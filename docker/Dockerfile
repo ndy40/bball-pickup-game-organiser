@@ -10,6 +10,7 @@ RUN pip install --no-cache-dir --upgrade -r /opt/requirements/requirements.txt
 
 COPY backend /opt/code/backend
 COPY wsgi.py /opt/code/wsgi.py
+COPY cli.py /opt/code/cli.py
 
 EXPOSE 8000
 

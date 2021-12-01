@@ -3,3 +3,5 @@ fastapi
 pydantic
 uvicorn==0.15.0
 python-jose==3.3.0
+mongodb-migrations==1.0.1
+typer

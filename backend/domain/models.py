@@ -27,14 +27,8 @@ class OID(ObjectId):
         field_schema.update(type="string")
 
 
-class User(BaseModel):
+class BaseEntityModel(BaseModel):
     id: Optional[OID] = Field(alias="_id")
-    username: str
-    first_seen: Optional[datetime] = datetime.now(tz=timezone.utc)
-    last_login: Optional[datetime]
-    token: Optional[str] = None
-    avatar: Optional[str]
-    profile_colour: Optional[str] = None
 
     class Config:
         extra = "ignore"
@@ -43,27 +37,30 @@ class User(BaseModel):
         json_encoders = {ObjectId: lambda oid: str(oid)}
 
 
-class Players(BaseModel):
-    id: OID
+class User(BaseEntityModel):
+    username: str
+    first_seen: Optional[datetime] = datetime.now(tz=timezone.utc)
+    last_login: Optional[datetime]
+    token: Optional[str] = None
+    avatar: Optional[str]
+    profile_colour: Optional[str] = None
+
+
+class Players(BaseEntityModel):
     username: str
     avatar: str
 
-    class Config:
-        arbitrary_types_allowed = True
-        json_encoders = {ObjectId: str}
 
-
-class Venue(BaseModel):
-    id: Optional[OID]
+class Venue(BaseEntityModel):
     name: str
 
     class Config:
+        allow_population_by_field_name = True
         arbitrary_types_allowed = True
         json_encoders = {ObjectId: str}
 
 
-class Event(BaseModel):
-    id: Optional[OID]
+class Event(BaseEntityModel):
     session_date: datetime
     created_at: datetime
     invite_code: str

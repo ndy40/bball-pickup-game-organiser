@@ -1,4 +1,3 @@
-from abc import ABC, abstractmethod
 from typing import Dict
 
 from bson import ObjectId
@@ -21,7 +20,7 @@ def filter_params_normalize(filters: dict):
     return mongo_filter
 
 
-class MongoRepo(ABC):
+class MongoRepo:
 
     collection_name: str = None
 
@@ -40,9 +39,10 @@ class MongoRepo(ABC):
 
         return self.db[self.collection_name]
 
-    @abstractmethod
-    def list(self, filters: Dict):
-        raise "Not implemented yet"
+    def list(self, filters: Dict = None):
+        if filters:
+            filters = filter_params_normalize(filters)
+        return [self.model(**item) for item in self.collection.find(filters or {})]
 
     def create(self, model):
         if not model:
@@ -65,10 +65,19 @@ class MongoRepo(ABC):
 
         return self.model(**self.collection.find_one(filter={"_id": model.id}))
 
-    @abstractmethod
-    def delete(self, oid: ObjectId):
-        raise "Not implemented yet"
+    def delete(self, id: ObjectId):
+        results = self.collection.delete_one({"_id": id})
 
-    @abstractmethod
+        if not results.deleted_count:
+            raise ValueError('Cannot delete {}'.format(type(self.model)))
+
+        return results.deleted_count
+
     def find_and_delete(self, filters: Dict):
-        raise "Not Implemented yet"
+        results = self.collection.delete_many(**filters)
+
+        if not results.deleted_count:
+            raise ValueError('Error deleting {}'.format(type(self.model)))
+
+        return results.deleted_count
+
