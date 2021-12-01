@@ -12,11 +12,13 @@ services:
       - .env
     environment:
       APP_ENV: ${APP_ENV:-dev}
+      MONGO_HOST: 'db'
       MONGO_USERNAME: ${MONGO_USERNAME}
       MONGO_PASSWORD: ${MONGO_PASSWORD}
       APP_DATABASE: ${APP_DATABASE}
     volumes:
       - ${PWD}/backend/:/opt/code/backend
+      - ${PWD}/cli.py:/opt/code/cli.py
     networks:
       - web
       - database
