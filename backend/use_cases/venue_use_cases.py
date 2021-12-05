@@ -14,4 +14,4 @@ def find_venue_use_case(name: str, repo: VenueRepo):
 
 
 def get_all_venues_use_case(repo: VenueRepo):
-    return repo.list();
+    return repo.list()

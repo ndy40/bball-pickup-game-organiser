@@ -1,0 +1,55 @@
+import datetime
+import random
+import string
+
+from backend.domain.models import Event, Players, OID
+from backend.repositories.event_repo import EventRepo
+from backend.repositories.user_repo import UserRepo
+from backend.infrastructure.config import settings
+
+
+def generate_random_code():
+    population = (
+        string.ascii_letters
+        + string.ascii_lowercase
+        + string.ascii_uppercase
+        + string.digits
+    )
+    return "".join(random.choices(population, k=10))
+
+
+def validate_event(event: Event):
+    if event.session_date < datetime.datetime.utcnow():
+        raise ValueError("Session date must be in the future")
+
+
+def get_events_use_case(filters: dict, repo: EventRepo):
+    if filters.get("player_id"):
+        filters["players"] = {"$elemMatch": {"player_id": OID(filters["player_id"])}}
+        del filters["player_id"]
+
+    if "organiser_id" in filters:
+        filters["organiser_id"] = OID(filters["organiser_id"])
+
+    return repo.list(filters=filters)
+
+
+def create_event_use_case(
+    model: Event, owner: str, repo: EventRepo, user_repo: UserRepo
+):
+    user = user_repo.find_by_id(user_id=owner)
+
+    invite_code = generate_random_code()
+    model.invite_code = invite_code
+    model.invite_link = f"{settings.SERVER_HOST}/event/invite/{invite_code}"
+    model.organiser_id = OID(owner)
+    model.organiser_name = user.username
+    model.players = [Players(player_id=user.id, avatar=user.avatar)]
+
+    validate_event(model)
+
+    return repo.create(model=model)
+
+
+def delete_event_use_case(owner_id: str, event_id: str, repo: EventRepo):
+    return repo.delete_own_event(owner_id=owner_id, event_id=event_id)
