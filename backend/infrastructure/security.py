@@ -49,7 +49,7 @@ class JWTKey(APIKeyHeader):
                 ):
                     return
 
-            decode_jwt(await super(JWTKey, self).__call__(request=request))
+            return decode_jwt(await super(JWTKey, self).__call__(request=request))
         except JWTError as e:
             print(e)
             raise HTTPException(

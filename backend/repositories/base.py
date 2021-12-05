@@ -1,6 +1,9 @@
 from typing import Dict
+from pydantic import BaseModel
+from decimal import Decimal
 
-from bson import ObjectId
+from bson import ObjectId, Decimal128
+from bson.codec_options import TypeCodec, CodecOptions, TypeRegistry
 from pymongo import MongoClient
 
 
@@ -10,20 +13,32 @@ def filter_params_normalize(filters: dict):
         if "__" not in k:
             field, operator = k, None
         else:
-            field, operator = k.split("__")
+            _, field, operator = k.split("__")
 
         if operator:
             mongo_filter[field] = {f"${operator}": v}
         else:
             mongo_filter[field] = v
-
+    print(mongo_filter)
     return mongo_filter
 
 
+class DecimalCodec(TypeCodec):
+    python_type = Decimal
+    bson_type = Decimal128
+
+    def transform_python(self, value):
+        return Decimal128(value)
+
+    def transform_bson(self, value):
+        return value.to_decimal()
+
+
+codec_options = CodecOptions(type_registry=TypeRegistry([DecimalCodec()]))
+
+
 class MongoRepo:
-
     collection_name: str = None
-
     model = None
 
     def __init__(self, db_config: dict):
@@ -37,14 +52,14 @@ class MongoRepo:
         if not self.collection_name:
             raise ValueError("Collection name must be set")
 
-        return self.db[self.collection_name]
+        return self.db.get_collection(self.collection_name, codec_options=codec_options)
 
     def list(self, filters: Dict = None):
         if filters:
             filters = filter_params_normalize(filters)
         return [self.model(**item) for item in self.collection.find(filters or {})]
 
-    def create(self, model):
+    def create(self, model: BaseModel):
         if not model:
             raise ValueError("Must be a valid model")
 
@@ -69,7 +84,7 @@ class MongoRepo:
         results = self.collection.delete_one({"_id": id})
 
         if not results.deleted_count:
-            raise ValueError('Cannot delete {}'.format(type(self.model)))
+            raise ValueError("Cannot delete {}".format(type(self.model)))
 
         return results.deleted_count
 
@@ -77,7 +92,6 @@ class MongoRepo:
         results = self.collection.delete_many(**filters)
 
         if not results.deleted_count:
-            raise ValueError('Error deleting {}'.format(type(self.model)))
+            raise ValueError("Error deleting {}".format(type(self.model)))
 
         return results.deleted_count
-
