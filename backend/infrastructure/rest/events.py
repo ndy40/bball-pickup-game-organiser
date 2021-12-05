@@ -37,11 +37,13 @@ def filter_events_by(
     organiser_id: Optional[str] = None,
     invite_code: Optional[str] = None,
     player_id: Optional[str] = None,
+    filter__session_date__gte: Optional[datetime] = None
 ):
     filters = {
         "organiser_id": organiser_id,
         "invite_code": invite_code,
         "player_id": player_id,
+        'filter__session_date__gte': filter__session_date__gte
     }
 
     if not (filters["organiser_id"] or filters["invite_code"] or filters["player_id"]):

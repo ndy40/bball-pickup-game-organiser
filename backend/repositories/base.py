@@ -13,13 +13,13 @@ def filter_params_normalize(filters: dict):
         if "__" not in k:
             field, operator = k, None
         else:
-            field, operator = k.split("__")
+            _, field, operator = k.split("__")
 
         if operator:
             mongo_filter[field] = {f"${operator}": v}
         else:
             mongo_filter[field] = v
-
+    print(mongo_filter)
     return mongo_filter
 
 
