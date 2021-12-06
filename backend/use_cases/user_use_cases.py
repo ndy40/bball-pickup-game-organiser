@@ -25,7 +25,7 @@ def register_user_use_case(request: CreateUserRequest, repo: UserRepo) -> User o
     }
 
     params["avatar"] = AVATAR_URL.format(
-        quote(request.username), params["profile_colour"]
+        quote(request.username.title()), params["profile_colour"]
     )
 
     user = repo.create(User(**params))

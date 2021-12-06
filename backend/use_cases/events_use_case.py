@@ -43,7 +43,7 @@ def create_event_use_case(
     model.invite_code = invite_code
     model.invite_link = f"{settings.SERVER_HOST}/event/invite/{invite_code}"
     model.organiser_id = OID(owner)
-    model.organiser_name = user.username
+    model.organiser_name = user.username.title()
     model.players = [Players(player_id=user.id, avatar=user.avatar)]
 
     validate_event(model)
