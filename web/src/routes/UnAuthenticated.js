@@ -1,12 +1,15 @@
 import React from 'react'
 import {BrowserRouter,Switch,Route} from "react-router-dom"
+import Login from '../pages/Login'
 import Register from "../pages/Register"
+
 
 const unAuthenticed = () => {
     return (
         <BrowserRouter>
         <Switch>
-            <Route exact path="/"  component={Register}/>
+            <Route exact path="/"  component={Login}/>
+            <Route exact path="/register"  component={Register}/>
         </Switch>
             
             

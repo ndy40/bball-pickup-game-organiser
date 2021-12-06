@@ -1,9 +1,7 @@
 import {
   Avatar,
   Button,
-  Checkbox,
   Container,
-  FormControlLabel,
   FormGroup,
   Grid,
   TextField,
@@ -11,29 +9,21 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { register } from "../services/api";
-import { Link, useHistory } from "react-router-dom";
+import { login } from "../services/api";
+import { Link } from "react-router-dom";
 
-const Register = () => {
+const Login = () => {
   const [error, setError] = useState(null);
   const [form, setForm] = useState({
     username: "",
-    auto_login: false,
   });
-  const router = useHistory();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
-
     try {
-      const response = await register(form);
-
+      const response = await login(form);
       localStorage.setItem("token", JSON.stringify(response.data.access_token));
-      if (!form.auto_login) {
-        alert("Registeration successful");
-        return router.push("/login");
-      }
       window.location.reload();
     } catch (error) {
       setError(error.response.data.detail);
@@ -51,12 +41,12 @@ const Register = () => {
             variant="h3"
             style={{ margin: "20px 0", fontWeight: "300", fontSize: "2.3rem" }}
           >
-            Register
+            Login
           </Typography>
         </Grid>
 
         <form onSubmit={handleSubmit}>
-          <FormGroup>
+          <FormGroup style={{ marginBottom: "20px" }}>
             <TextField
               label="Username"
               placeholder="Enter Username"
@@ -70,29 +60,20 @@ const Register = () => {
               value={form.username}
             />
           </FormGroup>
-          <FormGroup>
-            <FormControlLabel
-              control={<Checkbox />}
-              label="Remember Me"
-              onChange={(event) =>
-                setForm({ ...form, auto_login: !form.auto_login })
-              }
-            />
-          </FormGroup>
 
           <FormGroup style={{ marginBottom: "20px" }}>
             <Button variant="contained" color="primary" type="submit">
-              Register
+              Login
             </Button>
           </FormGroup>
         </form>
 
         <Typography>
-          Already Have an Account ?<Link to="/"> Login</Link>
+          Dont Have an Account ?<Link to="/register"> Register</Link>
         </Typography>
       </Container>
     </Grid>
   );
 };
 
-export default Register;
+export default Login;

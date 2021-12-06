@@ -5,12 +5,28 @@ import Authenticated from './routes/Authenticated';
 import UnAuthenticed from './routes/UnAuthenticated';
 
 function App() {
-  const {user} = useAuth()
- const routes = ()=> user ?  <Authenticated/>: <UnAuthenticed/>
-  
+  const {user,isLoading} = useAuth()
+ const routes = ()=> {
+   if(!isLoading){
+     if(user){
+       return <Authenticated/>
+     }else{
+       return <UnAuthenticed/>
+     }
+   }
+ }
 
 
-  return  !user ? <Loading/>: routes() 
+ console.log(isLoading)
+
+
+
+ return <>
+ {isLoading ? <Loading/> : routes()}
+ </>
+
+
+
 }
 
 export default App;
