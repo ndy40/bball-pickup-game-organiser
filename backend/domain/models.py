@@ -23,7 +23,6 @@ class OID(ObjectId):
 
     @classmethod
     def __modify_schema__(cls, field_schema):
-        print(f"schema {field_schema}")
         field_schema.update(type="string")
 
 

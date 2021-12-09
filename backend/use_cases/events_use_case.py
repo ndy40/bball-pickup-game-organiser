@@ -28,10 +28,10 @@ def get_events_use_case(filters: dict, repo: EventRepo):
         filters["players"] = {"$elemMatch": {"player_id": OID(filters["player_id"])}}
         del filters["player_id"]
 
-    if "organiser_id" in filters:
+    if "organiser_id" in filters and isinstance(filters['organiser_id'], str):
         filters["organiser_id"] = OID(filters["organiser_id"])
 
-    return repo.list(filters=filters)
+    return repo.list(filters)
 
 
 def create_event_use_case(
@@ -43,7 +43,7 @@ def create_event_use_case(
     model.invite_code = invite_code
     model.invite_link = f"{settings.SERVER_HOST}/event/invite/{invite_code}"
     model.organiser_id = OID(owner)
-    model.organiser_name = user.username
+    model.organiser_name = user.username.title()
     model.players = [Players(player_id=user.id, avatar=user.avatar)]
 
     validate_event(model)

@@ -53,7 +53,7 @@ user_routes = APIRouter(prefix="/users")
 )
 def create_user(user: CreateUserRequest, repo=Depends(user_repo)):
     try:
-        return register_user_use_case(user, repo=repo)
+        return register_user_use_case(user.username, auto_login=user.auto_login, repo=repo)
     except Exception as e:
         raise HTTPException(detail=str(e), status_code=status.HTTP_400_BAD_REQUEST)
 
@@ -61,7 +61,7 @@ def create_user(user: CreateUserRequest, repo=Depends(user_repo)):
 @user_routes.post("/login", response_model=Token)
 def login_user(login: LoginRequest, repo: UserRepo = Depends(user_repo)):
     try:
-        return login_user_use_case(login, repo, create_token)
+        return login_user_use_case(login.username, repo, create_token)
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
 
