@@ -51,7 +51,6 @@ class JWTKey(APIKeyHeader):
 
             return decode_jwt(await super(JWTKey, self).__call__(request=request))
         except JWTError as e:
-            print(e)
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN, detail="Invalid token"
             )
