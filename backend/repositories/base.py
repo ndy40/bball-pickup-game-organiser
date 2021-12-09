@@ -19,7 +19,6 @@ def filter_params_normalize(filters: dict):
             mongo_filter[field] = {f"${operator}": v}
         else:
             mongo_filter[field] = v
-    print(mongo_filter)
     return mongo_filter
 
 
@@ -34,12 +33,12 @@ class DecimalCodec(TypeCodec):
         return value.to_decimal()
 
 
-codec_options = CodecOptions(type_registry=TypeRegistry([DecimalCodec()]))
+codec_options = CodecOptions(type_registry=TypeRegistry([DecimalCodec()]), tz_aware=True)
 
 
 class MongoRepo:
     collection_name: str = None
-    model = None
+    model: BaseModel = None
 
     def __init__(self, db_config: dict):
         app_db = db_config["app_db"]
@@ -57,7 +56,7 @@ class MongoRepo:
     def list(self, filters: Dict = None):
         if filters:
             filters = filter_params_normalize(filters)
-        return [self.model(**item) for item in self.collection.find(filters or {})]
+        return [self.model(**item) for item in self.collection.find(filters)]
 
     def create(self, model: BaseModel):
         if not model:
