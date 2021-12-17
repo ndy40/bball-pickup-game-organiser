@@ -9,7 +9,7 @@ ENV PATH /opt/react/node_modules/.bin:$PATH
 
 # install app dependencies
 COPY web/package*.json ./
-RUN npm install --silent;
+RUN npm install --include=dev;
 
 # add app
 COPY web/ ./
