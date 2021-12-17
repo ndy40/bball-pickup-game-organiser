@@ -11,8 +11,10 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { register } from "../services/api";
+import { userService } from "../services/api";
 import { Link, useHistory } from "react-router-dom";
+
+const userApi = userService(localStorage.getItem('token'));
 
 const Register = () => {
   const [error, setError] = useState(null);
@@ -27,7 +29,7 @@ const Register = () => {
     setError(null);
 
     try {
-      const response = await register(form);
+      const response = await userApi.register(form.username, true);
 
       localStorage.setItem("token", JSON.stringify(response.data.access_token));
       if (!form.auto_login) {

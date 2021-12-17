@@ -3,12 +3,9 @@ import TheHeader from "../components/TheHeader"
 
 
 const Authenticated = () => {
-
-
     return (
         <>
             <TheHeader />
-            
         </>
     )
 }

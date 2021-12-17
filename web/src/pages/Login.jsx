@@ -9,8 +9,10 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { login } from "../services/api";
+import { userService } from "../services/api";
 import { Link } from "react-router-dom";
+
+const userApi = userService();
 
 const Login = () => {
   const [error, setError] = useState(null);
@@ -22,9 +24,10 @@ const Login = () => {
     e.preventDefault();
     setError(null);
     try {
-      const response = await login(form);
+      const response = await userApi.login(form.username);
       localStorage.setItem("token", JSON.stringify(response.data.access_token));
-      window.location.reload();
+      //Todo improve
+      window.location = '/home';
     } catch (error) {
       setError(error.response.data.detail);
     }

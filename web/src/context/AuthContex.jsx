@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { getProfile } from "../services/api";
+import { userService } from "../services/api";
+
+const userApi = userService(localStorage.getItem("token"));
 
 const AuthContex = createContext(null);
 
@@ -10,7 +12,7 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getProfile();
+        const response = await userApi.getProfile();
         setUser(response.data);
       } catch (error) {}
       setIsloading(false);
