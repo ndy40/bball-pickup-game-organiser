@@ -14,6 +14,7 @@ from backend.use_cases.events_use_case import (
     create_event_use_case,
     delete_event_use_case,
     get_events_use_case,
+    join_event_use_case
 )
 
 
@@ -80,7 +81,7 @@ def create_events(
     )
 
 
-@events_route.delete("/{event_id}")
+@events_route.delete("/{event_id}", status_code=204)
 def delete_event(
     event_id: str,
     repo: EventRepo = Depends(event_repo),
@@ -88,3 +89,11 @@ def delete_event(
 ):
     if delete_event_use_case(owner_id=token["sub"], event_id=event_id, repo=repo):
         return Response(status_code=status.HTTP_204_NO_CONTENT, content="success")
+
+
+@events_route.patch('/{event_id}/join', status_code=204)
+def join_event(event_id: str, repo: EventRepo = Depends(event_repo), user_repo: UserRepo = Depends(user_repo),
+               token: dict = Depends(JWTKey("x-api-key"))):
+
+    join_event_use_case(event_id=event_id, user_id=token['sub'], repo=repo, user_repo=user_repo)
+    return Response(status_code=status.HTTP_204_NO_CONTENT, content='success')
