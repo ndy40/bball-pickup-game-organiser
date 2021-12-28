@@ -6,8 +6,6 @@ services:
       dockerfile: docker/Dockerfile
       context: .
     restart: unless-stopped
-    ports:
-      - "8000"
     env_file:
       - .env
     environment:
@@ -23,12 +21,12 @@ services:
       - web
       - database
 
-  react_app:
+  frontend:
     build:
-      dockerfile: docker/react/Dockerfile
+      dockerfile: docker/frontend/Dockerfile
       context: .
     volumes:
-      - ./web:/opt/react
+      - ./web:/opt/frontend
     networks:
       - web
     depends_on:
