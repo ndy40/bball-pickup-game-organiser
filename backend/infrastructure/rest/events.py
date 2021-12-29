@@ -14,7 +14,8 @@ from backend.use_cases.events_use_case import (
     create_event_use_case,
     delete_event_use_case,
     get_events_use_case,
-    join_event_use_case
+    join_event_use_case,
+    leave_event_use_case,
 )
 
 
@@ -73,11 +74,11 @@ def get_events(
 def create_events(
     item: CreateEventRequest,
     repo: EventRepo = Depends(event_repo),
-    users_repo: UserRepo = Depends(user_repo),
+    users_repos: UserRepo = Depends(user_repo),
     token: dict = Depends(JWTKey("x-api-key")),
 ):
     return create_event_use_case(
-        model=Event(**asdict(item)), repo=repo, user_repo=users_repo, owner=token["sub"]
+        model=Event(**asdict(item)), repo=repo, user_repo=users_repos, owner=token["sub"]
     )
 
 
@@ -96,4 +97,11 @@ def join_event(event_id: str, repo: EventRepo = Depends(event_repo), user_repo: 
                token: dict = Depends(JWTKey("x-api-key"))):
 
     join_event_use_case(event_id=event_id, user_id=token['sub'], repo=repo, user_repo=user_repo)
+    return Response(status_code=status.HTTP_204_NO_CONTENT, content='success')
+
+
+@events_route.patch('/{event_id}/leave', status_code=204)
+def leave_event(event_id: str, token: dict = Depends(JWTKey("x-api-key")), repo: EventRepo = Depends(event_repo),
+                user_repos = Depends(user_repo)):
+    leave_event_use_case(event_id=event_id, user_id=token['sub'], repo=repo, user_repo=user_repos)
     return Response(status_code=status.HTTP_204_NO_CONTENT, content='success')
