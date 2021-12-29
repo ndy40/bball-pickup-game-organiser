@@ -67,3 +67,13 @@ def join_event_use_case(event_id: str, user_id: str, repo: EventRepo, user_repo=
     event.players.append(Players(player_id=user.id, avatar=user.avatar))
     repo.update(event)
 
+
+def leave_event_use_case(event_id: str, user_id: str, repo: EventRepo, user_repo: UserRepo):
+    event = repo.find_event(event_id=event_id);
+
+    if not event.has_joined(player_id=user_id):
+        raise PlayerAlreadyJoined('User not in event')
+
+    user = user_repo.find_by_id(user_id=user_id)
+    event.players = [player for player in event.players if player.player_id != user.id]
+    repo.update(event)
