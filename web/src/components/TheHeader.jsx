@@ -1,14 +1,19 @@
 import React from 'react';
-import { AppBar, Button, IconButton, Toolbar, Typography } from '@mui/material';
+import { AppBar, Avatar, IconButton, Toolbar, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Box } from '@mui/system';
 
+
+import { useAuth } from '../context/AuthContex';
+
 const TheHeader = () => {
+  const {user} = useAuth()
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
+          {user &&  ( <IconButton
             size="large"
             edge="start"
             color="inherit"
@@ -16,11 +21,17 @@ const TheHeader = () => {
             sx={{ mr: 2 }}
           >
             <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          </IconButton>) }
+    
+          <Typography variant="h4"  sx={{ flexGrow: 1 }} align="center">
             Bball
           </Typography>
-          <Button color="inherit">Login</Button>
+          
+            <Avatar src={user.avatar}  >
+               
+            </Avatar>
+          
+       
         </Toolbar>
       </AppBar>
     </Box>

@@ -102,6 +102,15 @@ class Event(BaseEntityModel):
     def is_owner(self, user_id: str):
         return OID(user_id) == self.organiser_id
 
+    def has_joined(self, player_id: str or OID) -> bool:
+        if isinstance(player_id, str):
+            player_id = OID(player_id)
+        try:
+            item = next(filter(lambda x: x.player_id == player_id, self.players))
+            return isinstance(item, Players)
+        except StopIteration:
+            return False
+
 
 class Token(BaseModel):
     access_token: str

@@ -51,7 +51,7 @@ user_routes = APIRouter(prefix="/users")
 @user_routes.post(
     "/", response_model=Union[UserCreatedResponse, Token], response_model_by_alias=False
 )
-def create_user(user: CreateUserRequest, repo=Depends(user_repo)):
+def create_user(user: CreateUserRequest, repo: UserRepo = Depends(user_repo)):
     try:
         return register_user_use_case(user.username, auto_login=user.auto_login, repo=repo)
     except Exception as e:

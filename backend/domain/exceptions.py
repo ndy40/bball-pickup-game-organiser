@@ -13,3 +13,6 @@ class UserNotFoundError(ValueError):
     """
 
     pass
+
+class PlayerAlreadyJoined(ValueError):
+    pass

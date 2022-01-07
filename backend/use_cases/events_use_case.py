@@ -6,6 +6,7 @@ from backend.domain.models import Event, Players, OID
 from backend.repositories.event_repo import EventRepo
 from backend.repositories.user_repo import UserRepo
 from backend.infrastructure.config import settings
+from backend.domain.exceptions import PlayerAlreadyJoined
 
 
 def generate_random_code():
@@ -53,3 +54,26 @@ def create_event_use_case(
 
 def delete_event_use_case(owner_id: str, event_id: str, repo: EventRepo):
     return repo.delete_own_event(owner_id=owner_id, event_id=event_id)
+
+
+def join_event_use_case(event_id: str, user_id: str, repo: EventRepo, user_repo=UserRepo):
+    event = repo.find_event(event_id=event_id)
+
+    if event.has_joined(player_id=user_id):
+        raise PlayerAlreadyJoined('User already joined')
+
+    user = user_repo.find_by_id(user_id=user_id)
+
+    event.players.append(Players(player_id=user.id, avatar=user.avatar))
+    repo.update(event)
+
+
+def leave_event_use_case(event_id: str, user_id: str, repo: EventRepo, user_repo: UserRepo):
+    event = repo.find_event(event_id=event_id);
+
+    if not event.has_joined(player_id=user_id):
+        raise PlayerAlreadyJoined('User not in event')
+
+    user = user_repo.find_by_id(user_id=user_id)
+    event.players = [player for player in event.players if player.player_id != user.id]
+    repo.update(event)
