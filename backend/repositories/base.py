@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, List, Tuple
 from pydantic import BaseModel
 from decimal import Decimal
 
@@ -53,10 +53,10 @@ class MongoRepo:
 
         return self.db.get_collection(self.collection_name, codec_options=codec_options)
 
-    def list(self, filters: Dict = None):
+    def list(self, filters: Dict = None, order_by: List[Tuple] = None):
         if filters:
             filters = filter_params_normalize(filters)
-        return [self.model(**item) for item in self.collection.find(filters)]
+        return [self.model(**item) for item in self.collection.find(filters, sort=order_by)]
 
     def create(self, model: BaseModel):
         if not model:

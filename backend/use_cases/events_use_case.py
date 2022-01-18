@@ -32,7 +32,7 @@ def get_events_use_case(filters: dict, repo: EventRepo):
     if "organiser_id" in filters and isinstance(filters['organiser_id'], str):
         filters["organiser_id"] = OID(filters["organiser_id"])
 
-    return repo.list(filters)
+    return repo.list(filters, order_by=[('session_date', 1)])
 
 
 def create_event_use_case(
