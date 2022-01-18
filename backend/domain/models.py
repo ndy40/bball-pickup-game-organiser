@@ -65,6 +65,7 @@ class Venue(BaseEntityModel):
 
 
 class Event(BaseEntityModel):
+    title: Optional[str]
     session_date: datetime
     created_at: Optional[datetime] = datetime.now()
     invite_code: Optional[str] = None
