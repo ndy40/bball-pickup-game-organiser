@@ -21,8 +21,8 @@ from backend.use_cases.events_use_case import (
 
 @dataclass
 class CreateEventRequest:
+    title: str
     session_date: datetime
-    created_at: datetime
     venue: str
     notes: str
     max_players: int
