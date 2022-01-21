@@ -1,15 +1,16 @@
 import axios from "axios"
+import { getToken } from "./local-storage"
 
 
-const httpClient = axios.create({
+export const httpClient = axios.create({
     baseURL: "/api",
     headers: {
-        'x-api-key': localStorage.getItem("token") || ""
+        'x-api-key': getToken()
     }
 })
 
 
-export default httpClient
+
 
 
 

@@ -1,14 +1,14 @@
 import React from "react";
-import { Route, Routes, Navigate } from "react-router-dom";
-import { EventList, Login, Register } from "../features";
+import { Navigate, Route, Routes } from "react-router-dom";
+
+import Login from "components/auth/Login";
+import Register from "components/auth/Register";
 
 const UnAuthenticated = () => {
   return (
     <Routes>
       <Route path="/register" element={<Register />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/" element={<EventList />} />
-      <Route path="*" element={<Navigate to="/" />} />
+      <Route path="/" element={<Login />} />
     </Routes>
   );
 };

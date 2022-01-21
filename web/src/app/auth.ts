@@ -1,18 +1,19 @@
 import { atom, } from "recoil"
 
 export interface IState {
-    isLoggedIn: boolean,
     user: {
+        id: string
         avatar: string
         username: string
-    } | undefined
+        first_seen: string
+
+    } | null
 }
 
 export const state = atom<IState>({
     key: "auth",
     default: {
-        isLoggedIn: false,
-        user: undefined
+        user: null
     }
 })
 

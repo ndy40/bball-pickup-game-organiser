@@ -1,14 +1,10 @@
-import httpClient from "./httpClient";
-import { useQuery } from 'react-query';
-
+import { httpClient } from "./httpClient";
 const PATH = "/users"
-
 
 export interface LoginResponse {
     access_token: string;
     token_type: string;
 }
-
 export interface IProfile {
     id: string
     username: string
@@ -26,14 +22,14 @@ export const register = async (username: string, autoLogin = false) => {
     return await httpClient.post(`${PATH}`, { username, 'auto_login': autoLogin });
 }
 
-export const getProfile = async () => {
+export const profile = async () => {
     return await httpClient.get<IProfile>(`${PATH}/profile`);
 }
 
-export const useAuth = () => useQuery("getProfile", getProfile, {
-    retry: false
 
-})
+
+
+
 
 
 
