@@ -5,7 +5,6 @@ export function queryErrorHandler(error: any): void {
     const title = error.response.data.detail
     toast.error(title)
 }
-
 export const queryClient = new QueryClient({
     defaultOptions: {
         queries: {

@@ -1,15 +1,13 @@
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
-
-import { useGetAuthUser, useUser } from "components/auth/hooks";
+import { useAuthHooks, useCheckSignedInUser } from "components/auth/hooks/useAuthHooks";
 import Authenticated from "./Authenticated";
 import UnAuthenticated from "./UnAuthenticated";
 
 const Router = () => {
-  useGetAuthUser();
-  const user = useUser();
-
-  return <BrowserRouter>{user ? <Authenticated /> : <UnAuthenticated />}</BrowserRouter>;
+  useCheckSignedInUser();
+  const { state } = useAuthHooks();
+  return <BrowserRouter>{state.user ? <Authenticated /> : <UnAuthenticated />}</BrowserRouter>;
 };
 
 export default Router;

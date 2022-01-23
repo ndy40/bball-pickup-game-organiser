@@ -26,13 +26,13 @@ const Card: React.FC<State> = ({ event }) => {
               <p>{event.venue}</p>
               <p>Cost/Player: ${event.cost}</p>
               <p>
-                Players:{" "}
+                Spaces:
                 <span className="text-gray-100 rounded-full py-0.5 px-2 bg-gray-500">
                   {event.max_players}
                 </span>
               </p>
               <p>
-                Attending:{" "}
+                Attending:
                 <span className="text-gray-100 rounded-full py-0.5 px-2 bg-gray-500">
                   {event.players.length}
                 </span>

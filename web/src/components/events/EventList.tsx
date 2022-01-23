@@ -17,7 +17,6 @@ const EventList = () => {
       });
     }
   }, [user, search]);
-
   return (
     <PageContainer>
       <Text>PICKUP GAMES</Text>
