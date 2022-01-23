@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import tw from "tailwind-styled-components";
-import { useAuthHooks } from "components/auth/hooks/useAuthHooks";
+import { useUser, useLogout } from "components/auth/hooks";
 import { BiMenu, BiChevronLeft } from "react-icons/bi";
 import { useLocation } from "react-router-dom";
 
@@ -18,8 +18,9 @@ const menus = [
 
 const Header = () => {
   const [open, setOpen] = useState(false);
-  const { state: authState, logout } = useAuthHooks();
+  const user = useUser();
   const location = useLocation();
+  const logout = useLogout();
   const toggleModal = () => setOpen((prev) => !prev);
 
   return (
@@ -27,7 +28,7 @@ const Header = () => {
       <SideBar open={open}>
         <div className="flex justify-between">
           <span className="font-bold text-sm px-3">
-            <img src={authState.user?.avatar} width="50" alt="" />
+            <img src={user?.avatar} width="50" alt="" />
           </span>
           <BiChevronLeft
             onClick={toggleModal}
@@ -47,7 +48,6 @@ const Header = () => {
               </Link>
             </li>
           ))}
-
           <hr />
           <li className="block   py-2">
             <button className="px-4 py-2  rounded-md " onClick={logout}>
@@ -64,9 +64,7 @@ const Header = () => {
               className="text-4xl    text-white cursor-pointer rounded-full "
             />
           </div>
-          <span className="block text-lg text-white  font-bold px-2">
-            {authState.user?.username}
-          </span>
+          <span className="block text-lg text-white  font-bold px-2">{user?.username}</span>
         </header>
       </div>
     </Container>
@@ -78,9 +76,7 @@ export default Header;
 const Container = tw.div`
  h-full
 `;
-
 const SideBar = tw.div<{ open: boolean }>`
   ${(props) => (props.open ? "translate-x-0" : "-translate-x-full")}
   absolute inset-0  transform ease-in-out duration-100 z-10 w-48 bg-gray-900 text-white h-full min-h-screen p-3
-  
 `;
