@@ -4,6 +4,10 @@ import EventList from "components/events/EventList";
 import CreateEvent from "components/events/CreateEvent";
 import Header from "../components/app/Header";
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 5085bf2176408a092041e8c0c989bb5d99a5f767
 const Authenticated = () => {
   return (
     <>
