@@ -4,7 +4,6 @@ import EventList from "components/events/EventList";
 import CreateEvent from "components/events/CreateEvent";
 import Header from "../components/app/Header";
 
-
 const Authenticated = () => {
   return (
     <>

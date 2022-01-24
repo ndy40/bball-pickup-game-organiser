@@ -1,7 +1,6 @@
 import React from "react";
 import tw from "tailwind-styled-components";
 import { useForm } from "react-hook-form";
-
 import { Text, Form, Label, Input, FormGroup, Error, Button } from "uitls/GlobalStyles";
 
 export interface IForm {
@@ -18,7 +17,6 @@ export const AuthForm: React.FC<Props> = ({ btnText, submitForm, heading }) => {
   const {
     register,
     handleSubmit,
-
     formState: { errors },
   } = useForm<IForm>();
 
@@ -32,7 +30,6 @@ export const AuthForm: React.FC<Props> = ({ btnText, submitForm, heading }) => {
       <Form onSubmit={handleSubmit(onValid)}>
         <FormGroup>
           <Label>Username:</Label>
-
           <Input
             {...register("username", {
               required: "Username is required",

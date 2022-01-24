@@ -11,7 +11,7 @@ import {
   TextArea,
 } from "../../uitls/GlobalStyles";
 import { useForm } from "react-hook-form";
-import { useCreateForm } from "./hooks/use-events";
+import { useCreateEvent } from "./hooks";
 import { CreateEventInput } from "../../services/EventService";
 import moment from "moment";
 
@@ -21,7 +21,7 @@ const CreateEvent = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const createEvent = useCreateForm();
+  const createEvent = useCreateEvent();
   const onValid = (data: CreateEventInput) => {
     createEvent(data);
   };
@@ -34,11 +34,10 @@ const CreateEvent = () => {
         <FormGroup>
           <Label>Title</Label>
           <Input
-              {...register('title',{
-                required:'Title is required',
-                minLength:3
-              })}
-              placeholder="Enter title"
+            {...register("title", {
+              required: "Title is required",
+              minLength: 3,
+            })}
           />
           <Error>{errors.max_players?.message}</Error>
         </FormGroup>
@@ -47,7 +46,6 @@ const CreateEvent = () => {
           <Input
             {...register("session_date", {
               required: "Date of event is required",
-
             })}
             type="datetime-local"
             min={moment().toISOString().slice(0, 16)}
@@ -57,13 +55,13 @@ const CreateEvent = () => {
         <FormGroup>
           <Label>Maximum number of Players</Label>
           <Input
-              {...register('max_players',{
-                required:'Number of players needed is required',
-                min:{
-                  value:1,
-                  message:"Number of players must be greater than 1"
-                }
-              })}
+            {...register("max_players", {
+              required: "Number of players needed is required",
+              min: {
+                value: 1,
+                message: "Number of players must be greater than 1",
+              },
+            })}
             type="number"
             placeholder="Enter number of players"
             min={0}
@@ -72,9 +70,12 @@ const CreateEvent = () => {
         </FormGroup>
         <FormGroup>
           <Label>Venue</Label>
-          <Input {...register("venue",
-              {required:"Venue is required"})}
-                 placeholder="Enter venue" list="venue" type="text"  />
+          <Input
+            {...register("venue", { required: "Venue is required" })}
+            placeholder="Enter venue"
+            list="venue"
+            type="text"
+          />
           <datalist id="venue">
             <option value="Edge" />
             <option value="Firefox" />
@@ -86,25 +87,27 @@ const CreateEvent = () => {
         </FormGroup>
         <FormGroup>
           <Label>Notes</Label>
-          <TextArea {...register("notes",{
-            required:"Note is required",
-            minLength:{
-              value:3,
-              message:"Note must be more than 3 characters"
-            }
-
-          })} placeholder="Enter note"></TextArea>
+          <TextArea
+            {...register("notes", {
+              required: "Note is required",
+              minLength: {
+                value: 3,
+                message: "Note must be more than 3 characters",
+              },
+            })}
+            placeholder="Enter note"
+          ></TextArea>
           <Error>{errors.notes?.message}</Error>
         </FormGroup>
         <FormGroup>
           <Label>Cost ($)</Label>
           <Input
-            {...register("cost",{
-              required:"Cost is required",
-              min:{
-                value:1,
-                message:"Cost must be greater than 0"
-              }
+            {...register("cost", {
+              required: "Cost is required",
+              min: {
+                value: 1,
+                message: "Cost must be greater than 0",
+              },
             })}
             type="number"
             min="0.00"

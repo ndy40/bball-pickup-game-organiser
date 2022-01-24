@@ -1,14 +1,11 @@
 import React, { useEffect } from "react";
 import tw from "tailwind-styled-components";
-
 import Cards from "./Cards";
-import { useFetchEvents, useEvents } from "./hooks/use-events";
-import { useAuthHooks } from "../auth/hooks/useAuthHooks";
+import { useFetchEvents, useEvents } from "./hooks";
+import { useUser } from "../auth/hooks";
 
 const EventList = () => {
-  const {
-    state: { user },
-  } = useAuthHooks();
+  const user = useUser();
   const search = useFetchEvents();
   const events = useEvents();
 
@@ -33,8 +30,6 @@ export default EventList;
 const PageContainer = tw.div`
 w-full max-w-screen-lg mx-auto flex flex-col h-full py-10 px-2
 `;
-
 const Text = tw.h2`
 text-2xl capitalize
 `;
-

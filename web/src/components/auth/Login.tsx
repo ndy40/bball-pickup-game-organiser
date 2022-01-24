@@ -1,6 +1,6 @@
 import React from "react";
 import { AuthForm } from "./AuthForm";
-import { useLogin } from "./hooks/useAuthHooks";
+import { useLogin } from "./hooks";
 import { Link } from "react-router-dom";
 
 const Login = () => {
