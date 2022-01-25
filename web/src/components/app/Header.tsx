@@ -28,7 +28,7 @@ const Header = () => {
       <SideBar open={open}>
         <div className="flex justify-between">
           <span className="font-bold text-sm px-3">
-            <img src={user?.avatar} width="50" alt="" />
+            <img src={user?.avatar} width="50" alt="avatar" />
           </span>
           <BiChevronLeft
             onClick={toggleModal}
@@ -64,7 +64,9 @@ const Header = () => {
               className="text-4xl    text-white cursor-pointer rounded-full "
             />
           </div>
-          <span className="block text-lg text-white  font-bold px-2">{user?.username}</span>
+          <span className="block text-lg text-white  font-bold px-2">
+             <img src={user?.avatar} width="50" alt="avatar" />
+          </span>
         </header>
       </div>
     </Container>
