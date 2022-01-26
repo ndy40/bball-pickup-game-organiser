@@ -12,6 +12,6 @@ COPY backend /opt/code/backend
 COPY wsgi.py /opt/code/wsgi.py
 COPY cli.py /opt/code/cli.py
 
-EXPOSE 8000
+EXPOSE 8080
 
-CMD ["uvicorn", "wsgi:app", "--reload", "--proxy-headers", "--host",  "0.0.0.0"]
+CMD ["uvicorn", "wsgi:app", "--reload", "--proxy-headers", "--host",  "0.0.0.0", "--port", "8080"]
