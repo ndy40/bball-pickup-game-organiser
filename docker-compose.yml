@@ -21,17 +21,6 @@ services:
       - web
       - database
 
-  frontend:
-    build:
-      dockerfile: docker/frontend/Dockerfile
-      context: .
-    volumes:
-      - ./web:/opt/frontend
-    networks:
-      - web
-    depends_on:
-      - web
-
   reverse_proxy:
     image: nginx:1.21-alpine
     restart: always
@@ -41,7 +30,6 @@ services:
       - "80:80"
     depends_on:
       - web
-      - react_app
     networks:
       - web
 
