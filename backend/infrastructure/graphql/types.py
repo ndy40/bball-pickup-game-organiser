@@ -25,6 +25,11 @@ class ErrorResponse:
     message: str
 
 
+@strawberry.type
+class MessageResponse:
+    message: str
+
+
 LoginResult = strawberry.union('LoginResult', (TokenSchema, ErrorResponse))
 
 
