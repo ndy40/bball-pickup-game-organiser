@@ -14,5 +14,16 @@ class UserNotFoundError(ValueError):
 
     pass
 
+
 class PlayerAlreadyJoined(ValueError):
+    """
+    Player has already joined
+    """
+    pass
+
+
+class VenueAlreadyExists(ValueError):
+    """
+    Venue already exists in collection
+    """
     pass
