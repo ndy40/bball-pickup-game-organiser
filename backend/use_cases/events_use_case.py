@@ -77,3 +77,7 @@ def leave_event_use_case(event_id: str, user_id: str, repo: EventRepo, user_repo
     user = user_repo.find_by_id(user_id=user_id)
     event.players = [player for player in event.players if player.player_id != user.id]
     repo.update(event)
+
+
+def get_event_use_case(event_id: str, repo: EventRepo):
+    return repo.find_event(event_id=event_id)
