@@ -5,7 +5,7 @@ import strawberry
 from strawberry.types import Info
 
 from backend.infrastructure.dependency import user_repo, event_repo
-from backend.use_cases.events_use_case import get_events_use_case
+from backend.use_cases.events_use_case import get_events_use_case, get_event_use_case
 from backend.infrastructure.security import decode_jwt
 from .permissions import RequiresAuthentication
 from .types import UserSchema, ErrorResponse, EventSchema
@@ -44,3 +44,11 @@ class Query:
 
         events = get_events_use_case(filters, event_repo)
         return [EventSchema.from_pydantic(event) for event in events]
+
+    @strawberry.field(permission_classes=[RequiresAuthentication])
+    def get_event_by_id(self, event_id: str) -> strawberry.union('EventResponse', (EventSchema, ErrorResponse)):
+        try:
+            event = get_event_use_case(event_id=event_id, repo=event_repo)
+            return EventSchema.from_pydantic(event)
+        except ValueError as e:
+            return ErrorResponse(messsage=str(e))
