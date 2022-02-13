@@ -6,8 +6,8 @@ class VenueRepo(MongoRepo):
     model = Venue
     collection_name = "venue"
 
-    def venue_exists(self, name: str):
-        pass
+    def venue_exists(self, name: str) -> bool:
+        return self.collection.count({"name": name}) > 0
 
     def find_venue(self, name: str):
         result = self.collection.find_one({"$text": {"$search": name}})
