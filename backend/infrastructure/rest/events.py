@@ -16,6 +16,7 @@ from backend.use_cases.events_use_case import (
     get_events_use_case,
     join_event_use_case,
     leave_event_use_case,
+    get_event_use_case,
 )
 
 
@@ -80,6 +81,11 @@ def create_events(
     return create_event_use_case(
         model=Event(**asdict(item)), repo=repo, user_repo=users_repos, owner=token["sub"]
     )
+
+
+@events_route.get('/{event_id}', response_model=Event)
+def get_event(event_id: str, repo: EventRepo = Depends(event_repo)):
+    return get_event_use_case(event_id=event_id, repo=repo)
 
 
 @events_route.delete("/{event_id}", status_code=204)
