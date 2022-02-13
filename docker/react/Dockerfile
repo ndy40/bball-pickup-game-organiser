@@ -1,5 +1,5 @@
 # pull official base image
-FROM node:16.13.0
+FROM node:16.14.0
 
 # set working directory
 WORKDIR /opt/react
