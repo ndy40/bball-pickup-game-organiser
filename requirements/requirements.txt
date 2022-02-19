@@ -6,3 +6,4 @@ python-jose==3.3.0
 mongodb-migrations==1.1.1
 typer==0.4.0
 strawberry-graphql==0.97.0
+jinja2==3.0.3
