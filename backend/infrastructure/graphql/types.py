@@ -1,5 +1,6 @@
 from __future__ import annotations
 from datetime import datetime
+from decimal import Decimal
 from typing import Optional, List, NewType
 
 import strawberry
@@ -22,6 +23,11 @@ class TokenSchema:
 
 @strawberry.type
 class ErrorResponse:
+    message: str
+
+
+@strawberry.type
+class MessageResponse:
     message: str
 
 
@@ -70,6 +76,7 @@ class EventSchema:
     organiser_id: OIDScalar
     organiser_name: str
     max_players: Optional[int]
+    cost: Optional[Decimal]
     players: List[PlayerSchema]
     notes: Optional[str] = None
     invite_link: Optional[str] = None
@@ -84,6 +91,7 @@ class EventSchema:
             organiser_id=OIDScalar(event.organiser_id),
             organiser_name=event.organiser_name,
             max_players=event.max_players,
+            cost=event.cost,
             notes=event.notes,
             invite_link=event.invite_link,
             invite_code=event.invite_code,

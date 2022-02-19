@@ -3,11 +3,12 @@ from strawberry.types import Info
 
 from backend.domain.models import Token
 from backend.domain.exceptions import UserExistsError
-from backend.infrastructure.dependency import user_repo
+from backend.infrastructure.dependency import user_repo, event_repo
 from backend.infrastructure.security import create_token
 from backend.use_cases.user_use_cases import login_user_use_case, register_user_use_case
+from backend.use_cases.events_use_case import join_event_use_case, leave_event_use_case, get_event_use_case, delete_event_use_case
 from .permissions import RequiresAuthentication
-from .types import LoginResult, TokenSchema, ErrorResponse, UserSchema
+from .types import LoginResult, TokenSchema, ErrorResponse, UserSchema, EventSchema, MessageResponse
 from .helpers import get_user_id_from_context
 
 
@@ -38,14 +39,33 @@ class Mutation:
             return ErrorResponse(message=str(e))
 
     @strawberry.field(permission_classes=[RequiresAuthentication])
-    def join_event(self, info: Info, event_id: str) -> str:
-        user_id = get_user_id_from_context(info.context)
-        # TODO: 1. Get event user case for adding user to event.
-        #  2. Make sure that user is validated for duplicate entry.
-        #  3. return event payload on succeed.
-        return user_id
+    def join_event(self, info: Info, event_id: str) -> EventSchema:
+        event_repository = event_repo()
 
-    def quit_event(self, info: Info, event_id: str) -> str:
-        ''' remove user from event'''
-        pass
+        user_id = get_user_id_from_context(info.context)
+
+        join_event_use_case(event_id, user_id, repo=event_repository)
+        event = get_event_use_case(event_id=event_id, repo=event_repository)
+
+        return EventSchema.from_pydantic(event)
+
+    @strawberry.field(permission_classes=[RequiresAuthentication])
+    def quit_event(self, info: Info, event_id: str) -> MessageResponse:
+        user_id = get_user_id_from_context(info.context)
+        user_repository = user_repo()
+        event_repository = event_repo()
+        leave_event_use_case(event_id=event_id, user_id=user_id, repo=event_repository, user_repo=user_repository)
+
+        return MessageResponse(message=f'Removed from event {event_id}')
+
+    @strawberry.field(permission_classes=[RequiresAuthentication])
+    def delete_event(self, info: Info, event_id: str) \
+            -> strawberry.union('DeleteEventResponse', (ErrorResponse, MessageResponse)):
+        user_id = get_user_id_from_context(info.context)
+        try:
+            delete_event_use_case(owner_id=user_id, event_id=event_id, repo=event_repo())
+            return MessageResponse(message="deleted")
+        except Exception as e:
+            return ErrorResponse(message=str(e))
+
 

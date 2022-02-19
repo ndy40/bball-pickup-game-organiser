@@ -19,5 +19,6 @@ class EventRepo(MongoRepo):
         result = self.collection.find_one_and_delete(
             {"_id": ObjectId(event_id), "organiser_id": ObjectId(owner_id)}
         )
-        if result.deleted_count == 0:
+
+        if not result:
             raise ValueError("Cannot delete event")
