@@ -23,17 +23,6 @@ services:
       - web
       - database
 
-  react_app:
-    build:
-      dockerfile: docker/react/Dockerfile
-      context: .
-    volumes:
-      - ./web:/opt/react
-    networks:
-      - web
-    depends_on:
-      - web
-
   reverse_proxy:
     image: nginx:1.21-alpine
     restart: always
@@ -43,7 +32,6 @@ services:
       - "80:80"
     depends_on:
       - web
-      - react_app
     networks:
       - web
 
