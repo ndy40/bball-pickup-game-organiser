@@ -1,8 +1,7 @@
-import { atom } from "recoil"
-import { Event } from "../services/EventService"
+import { atom } from 'recoil';
+import { Event } from '../services/EventService';
 
-export const state = atom<Event[]>({
-    key: "events",
-    default: []
-})
-
+export default atom<Event[]>({
+    key: 'events',
+    default: [],
+});

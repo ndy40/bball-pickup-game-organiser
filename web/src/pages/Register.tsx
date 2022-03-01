@@ -1,9 +1,8 @@
-import React from "react";
-import { AuthForm } from "./AuthForm";
-import { useRegister } from "./hooks";
-import { Link } from "react-router-dom";
+import AuthForm from 'components/auth/AuthForm';
+import { useRegister } from 'hooks/auth';
+import { Link } from 'react-router-dom';
 
-const Register = () => {
+function Register() {
   const register = useRegister();
   return (
     <div className="min-h-screen flex flex-col items-center pt-40">
@@ -23,6 +22,6 @@ const Register = () => {
       </div>
     </div>
   );
-};
+}
 
 export default Register;

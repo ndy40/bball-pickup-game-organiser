@@ -1,22 +1,31 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import tw from "tailwind-styled-components";
-import { useUser, useLogout } from "components/auth/hooks";
-import { BiMenu, BiChevronLeft } from "react-icons/bi";
-import { useLocation } from "react-router-dom";
+/* eslint-disable import/no-extraneous-dependencies */
+import { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import tw from 'tailwind-styled-components';
+import { useUser, useLogout } from 'hooks/auth';
+import { BiMenu, BiChevronLeft } from 'react-icons/bi';
+import { v4 as uuidv4 } from 'uuid';
+
+const Container = tw.div`
+ h-full
+`;
+const SideBar = tw.div<{ open: boolean }>`
+  ${(props) => (props.open ? 'translate-x-0' : '-translate-x-full')}
+  absolute inset-0  transform ease-in-out duration-100 z-10 w-48 bg-gray-900 text-white h-full min-h-screen p-3
+`;
 
 const menus = [
   {
-    name: "Home",
-    link: "/",
+    name: 'Home',
+    link: '/',
   },
   {
-    name: "Create Event",
-    link: "/create-event",
+    name: 'Create Event',
+    link: '/create-event',
   },
 ];
 
-const Header = () => {
+export default function Header() {
   const [open, setOpen] = useState(false);
   const user = useUser();
   const location = useLocation();
@@ -36,21 +45,29 @@ const Header = () => {
           />
         </div>
         <ul className="mt-8 space-y-3">
-          {menus.map((menu, index) => (
+          {menus.map((menu) => (
             <li
               className={`block ${
-                location.pathname === menu.link ? "bg-gray-800" : null
+                location.pathname === menu.link ? 'bg-gray-800' : null
               } py-2 rounded-md`}
-              key={index}
+              key={uuidv4()}
             >
-              <Link to={menu.link} className="px-4 py-2  rounded-md " onClick={toggleModal}>
+              <Link
+                to={menu.link}
+                className="px-4 py-2  rounded-md "
+                onClick={toggleModal}
+              >
                 {menu.name}
               </Link>
             </li>
           ))}
           <hr />
           <li className="block   py-2">
-            <button className="px-4 py-2  rounded-md " onClick={logout}>
+            <button
+              type="button"
+              className="px-4 py-2  rounded-md "
+              onClick={logout}
+            >
               Logout
             </button>
           </li>
@@ -65,20 +82,10 @@ const Header = () => {
             />
           </div>
           <span className="block text-lg text-white  font-bold px-2">
-             <img src={user?.avatar} width="50" alt="avatar" />
+            <img src={user?.avatar} width="50" alt="avatar" />
           </span>
         </header>
       </div>
     </Container>
   );
-};
-
-export default Header;
-
-const Container = tw.div`
- h-full
-`;
-const SideBar = tw.div<{ open: boolean }>`
-  ${(props) => (props.open ? "translate-x-0" : "-translate-x-full")}
-  absolute inset-0  transform ease-in-out duration-100 z-10 w-48 bg-gray-900 text-white h-full min-h-screen p-3
-`;
+}

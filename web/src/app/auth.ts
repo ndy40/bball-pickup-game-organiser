@@ -1,4 +1,4 @@
-import { atom, } from "recoil"
+import { atom } from 'recoil';
 
 export interface IState {
     user: {
@@ -11,9 +11,8 @@ export interface IState {
 }
 
 export const state = atom<IState>({
-    key: "auth",
+    key: 'auth',
     default: {
-        user: null
-    }
-})
-
+        user: null,
+    },
+});

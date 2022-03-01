@@ -1,9 +1,9 @@
-import React from "react";
-import { AuthForm } from "./AuthForm";
-import { useLogin } from "./hooks";
-import { Link } from "react-router-dom";
+/* eslint-disable react/no-unescaped-entities */
+import AuthForm from 'components/auth/AuthForm';
+import { useLogin } from 'hooks/auth';
+import { Link } from 'react-router-dom';
 
-const Login = () => {
+function Login() {
   const login = useLogin();
   return (
     <div className="min-h-screen flex flex-col items-center pt-40">
@@ -23,6 +23,6 @@ const Login = () => {
       </div>
     </div>
   );
-};
+}
 
 export default Login;

@@ -1,3 +1,4 @@
+from typing import List
 from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel
 
@@ -26,7 +27,8 @@ def search_venue(name: str, repo: VenueRepo = Depends(venue_repo)):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
 
 
-@venue_route.post("/")
+@venue_route.post("/", response_model=Venue, response_model_by_alias=False,
+                  responses={400: {"description": "Bad request or venue already exists"}})
 def create_venue(req: CreateVenueRequest, repo: VenueRepo = Depends(venue_repo)):
     try:
         result = create_venue_use_case(name=req.name, repo=repo)
@@ -35,6 +37,6 @@ def create_venue(req: CreateVenueRequest, repo: VenueRepo = Depends(venue_repo))
         raise HTTPException(detail=str(e), status_code=status.HTTP_400_BAD_REQUEST)
 
 
-@venue_route.get("/")
+@venue_route.get("/", response_model=List[Venue], response_model_by_alias=False)
 def list_venues(repo: VenueRepo = Depends(venue_repo)):
     return get_all_venues_use_case(repo=repo)
