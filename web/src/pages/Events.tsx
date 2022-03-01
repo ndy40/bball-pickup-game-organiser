@@ -3,7 +3,8 @@ import { useEffect } from 'react';
 import tw from 'tailwind-styled-components';
 import EventCards from 'components/events/EventCards';
 import { useFetchEvents } from 'hooks/event';
-import { useUser } from 'hooks/auth';
+import { useUser } from 'context/auth/auth';
+import Loading from 'components/Loading/Loading';
 
 const PageContainer = tw.div`
 w-full max-w-screen-lg mx-auto flex flex-col h-full py-10 px-2
@@ -13,8 +14,9 @@ text-2xl capitalize
 `;
 
 function EventList() {
-  const user = useUser();
+  const { user } = useUser();
   const { mutate, isLoading, data } = useFetchEvents();
+
   useEffect(() => {
     if (user) {
       mutate({
@@ -24,7 +26,7 @@ function EventList() {
     }
   }, [user, mutate]);
 
-  if (isLoading) return <>Loading...</>;
+  if (isLoading) return <Loading />;
 
   const events = data?.data ?? [];
 

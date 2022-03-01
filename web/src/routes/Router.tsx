@@ -1,14 +1,16 @@
+/* eslint-disable no-console */
 import { BrowserRouter } from 'react-router-dom';
-import { useAuthHooks, useCheckSignedInUser } from 'hooks/auth';
+import Loading from 'components/Loading/Loading';
 import Authenticated from './Authenticated';
 import UnAuthenticated from './UnAuthenticated';
+import { useUser } from '../context/auth/auth';
 
 function Router() {
-  useCheckSignedInUser();
-  const { state } = useAuthHooks();
+  const { user, isLoading } = useUser();
+  if (isLoading) return <Loading />;
   return (
     <BrowserRouter>
-      {state.user ? <Authenticated /> : <UnAuthenticated />}
+      {user ? <Authenticated /> : <UnAuthenticated />}
     </BrowserRouter>
   );
 }

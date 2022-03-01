@@ -2,9 +2,9 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import tw from 'tailwind-styled-components';
-import { useUser, useLogout } from 'hooks/auth';
 import { BiMenu, BiChevronLeft } from 'react-icons/bi';
 import { v4 as uuidv4 } from 'uuid';
+import { useUser } from '../../context/auth/auth';
 
 const Container = tw.div`
  h-full
@@ -27,9 +27,8 @@ const menus = [
 
 export default function Header() {
   const [open, setOpen] = useState(false);
-  const user = useUser();
+  const { user, logout } = useUser();
   const location = useLocation();
-  const logout = useLogout();
   const toggleModal = () => setOpen((prev) => !prev);
 
   return (

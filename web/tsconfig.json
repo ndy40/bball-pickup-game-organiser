@@ -1,19 +1,16 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "paths": {
-            "@components": ["src/components/"],
-            "@hooks": ["src/hooks/"],
-            "@pages": ["src/pages/"],
-            "@utilities": ["src/utilities"],
-            "@assets": ["src/assets/"],
-            "@services":["src/services/"]
-        },
+      "@components": ["src/components/"],
+      "@hooks": ["src/hooks/"],
+      "@pages": ["src/pages/"],
+      "@utilities": ["src/utilities"],
+      "@assets": ["src/assets/"],
+      "@services": ["src/services/"],
+      "@context": ["src/context/"]
+    },
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -29,16 +26,14 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "noImplicitAny": true,
-     "strictNullChecks": true,
-     "noUnusedLocals": true,
-     "noUnusedParameters": true,
-     "strictFunctionTypes": true,
-     "allowUnusedLabels": false,
-     "pretty": true,
-     "sourceMap": true,
-     "downlevelIteration": true
+    "strictNullChecks": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "strictFunctionTypes": true,
+    "allowUnusedLabels": false,
+    "pretty": true,
+    "sourceMap": true,
+    "downlevelIteration": true
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src"]
 }
