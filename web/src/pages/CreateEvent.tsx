@@ -1,14 +1,25 @@
 import { useForm } from 'react-hook-form';
 import { useCreateEvent } from 'hooks/event';
 import moment from 'moment';
+import { useLocation } from 'react-router-dom';
 import { CreateEventInput } from '../services/EventService';
 
 function CreateEvent() {
+  const { state } = useLocation();
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm({ mode: 'onChange' });
+  } = useForm({
+    mode: 'onChange',
+    defaultValues: {
+      title: state?.event.title || '',
+      venue: state?.event.title || '',
+      cost: state?.event.cost || '',
+      max_players: state?.event.max_players,
+      notes: state?.event.notes,
+    },
+  });
   const createEvent = useCreateEvent();
   const onValid = (data: CreateEventInput) => {
     createEvent(data);

@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable import/no-extraneous-dependencies */
 import EventCards from 'components/events/EventCards';
 import { useFetchEvents } from 'hooks/event';
@@ -6,6 +5,7 @@ import { useUser } from 'context/auth/auth';
 import Loading from 'components/Loading/Loading';
 import { v4 as uuid } from 'uuid';
 import { useState } from 'react';
+import { sortEventByClosestDate } from '../utilities/event';
 
 const tabs = [
   {
@@ -55,8 +55,15 @@ function EventList() {
         ))}
       </div>
       <div className="mb-2">
-        {active === 0 && <EventCards title="Today" events={today} />}
-        {active === 1 && <EventCards title="Upcoming" events={upcoming} />}
+        {active === 0 && (
+          <EventCards title="Today" events={sortEventByClosestDate(today)} />
+        )}
+        {active === 1 && (
+          <EventCards
+            title="Upcoming"
+            events={sortEventByClosestDate(upcoming)}
+          />
+        )}
         {active === 2 && <EventCards title="Previous" events={previous} />}
       </div>
     </div>

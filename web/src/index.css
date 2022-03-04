@@ -6,7 +6,7 @@
     @apply text-sm text-red-600;
   }
   .btn {
-    @apply w-full rounded p-4 text-white hover:bg-opacity-80 disabled:bg-gray-400;
+    @apply w-full rounded-lg p-4 text-white hover:bg-opacity-80 disabled:bg-gray-400;
   }
   .btn-primary {
     @apply bg-red-800;
@@ -20,6 +20,9 @@
   }
   .label {
     @apply mb-1 text-sm  text-gray-600;
+  }
+  .icon {
+    @apply rounded-full bg-gray-100 p-1 text-red-600;
   }
 }
 @tailwind utilities;

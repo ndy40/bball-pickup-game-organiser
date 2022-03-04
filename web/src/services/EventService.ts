@@ -44,3 +44,4 @@ export const create = async (data: CreateEventInput) => httpClient.post(`${PATH}
 export const join = async (eventId: string) => httpClient.patch(`${PATH}/${eventId}/join`);
 export const remove = async (eventId: string) => httpClient.delete(`${PATH}/${eventId}`);
 export const leave = async (eventId: string) => httpClient.patch(`${PATH}/${eventId}/leave`);
+export const getEventById = async (eventId: string) => httpClient.get(`${PATH}/${eventId}`)
