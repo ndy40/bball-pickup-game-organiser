@@ -29,21 +29,21 @@ export default function Footer() {
               ({ isActive }) =>
                 // eslint-disable-next-line implicit-arrow-linebreak
                 `${
-                  isActive ? 'text-red-600' : 'text-gray-600'
+                  isActive ? 'text-red-600' : 'text-gray-400'
                 } flex flex-col items-center justify-center space-y-2`
               // eslint-disable-next-line react/jsx-curly-newline
             }
           >
-            <menu.Icon className="w-8" />
+            <menu.Icon className="w-6" />
             {menu.name}
           </NavLink>
         ))}
         <button
           type="button"
           onClick={() => logout()}
-          className="flex flex-col items-center justify-center"
+          className="flex flex-col items-center justify-center text-gray-400"
         >
-          <LogoutIcon className="w-8" />
+          <LogoutIcon className="w-6" />
           <span>Logout</span>
         </button>
       </div>
