@@ -59,7 +59,6 @@ function EventList() {
         {active === 1 && <EventCards title="Upcoming" events={upcoming} />}
         {active === 2 && <EventCards title="Previous" events={previous} />}
       </div>
-      );
     </div>
   );
 }
