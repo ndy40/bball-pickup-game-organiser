@@ -1,15 +1,18 @@
 import { NavLink } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { useUser } from '../../context/auth/auth';
+import { HomeIcon, PlusIcon, LogoutIcon } from '@heroicons/react/outline';
 
 const menus = [
   {
-    name: 'Home',
+    name: 'Events',
     link: '/events',
+    Icon: HomeIcon,
   },
   {
     name: 'Create Event',
     link: '/create',
+    Icon: PlusIcon,
   },
 ];
 
@@ -25,15 +28,23 @@ export default function Footer() {
             className={
               ({ isActive }) =>
                 // eslint-disable-next-line implicit-arrow-linebreak
-                `${isActive ? 'text-red-600' : 'text-gray-600'} flex flex-col`
+                `${
+                  isActive ? 'text-red-600' : 'text-gray-600'
+                } flex flex-col items-center justify-center space-y-2`
               // eslint-disable-next-line react/jsx-curly-newline
             }
           >
+            <menu.Icon className="w-8" />
             {menu.name}
           </NavLink>
         ))}
-        <button type="button" onClick={() => logout()}>
-          Logout
+        <button
+          type="button"
+          onClick={() => logout()}
+          className="flex flex-col items-center justify-center"
+        >
+          <LogoutIcon className="w-8" />
+          <span>Logout</span>
         </button>
       </div>
     </div>
