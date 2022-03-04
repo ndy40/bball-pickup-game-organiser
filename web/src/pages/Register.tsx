@@ -5,18 +5,18 @@ import { Link } from 'react-router-dom';
 function Register() {
   const register = useRegister();
   return (
-    <div className="min-h-screen flex flex-col items-center pt-40">
-      <div className="text-center text-red-900 text-4xl mb-2">PICKUP GAMES</div>
+    <div className="flex min-h-screen flex-col  pt-32">
+      <h2 className="mb-2 text-center text-3xl text-red-700">PICKUP GAMES</h2>
       <AuthForm
-        btnText="Register"
+        btnText="Create account"
         heading="Create an account"
         submitForm={(data) => register(data.username)}
       />
       <div>
-        <p className="text-xs tracking-wide">
+        <p className="mt-2 text-center text-sm text-gray-600">
           Already have an account? &nbsp;
-          <Link to="/login" className="hover:text-red-500">
-            Login
+          <Link to="/login" className="hover:text-blue-500 hover:underline">
+            login
           </Link>
         </p>
       </div>

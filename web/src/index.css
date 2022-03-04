@@ -1,3 +1,25 @@
 @tailwind base;
 @tailwind components;
+
+@layer components {
+  .error {
+    @apply text-sm text-red-600;
+  }
+  .btn {
+    @apply w-full rounded p-4 text-white hover:bg-opacity-80 disabled:bg-gray-400;
+  }
+  .btn-primary {
+    @apply bg-red-800;
+  }
+  .input {
+    @apply w-full rounded border border-gray-300 bg-gray-50 p-4 text-lg outline-none
+    placeholder:text-sm placeholder:text-gray-600 focus:border-red-600;
+  }
+  .form {
+    @apply mx-auto flex w-full max-w-sm flex-col  px-2;
+  }
+  .label {
+    @apply mb-1 text-sm  text-gray-600;
+  }
+}
 @tailwind utilities;

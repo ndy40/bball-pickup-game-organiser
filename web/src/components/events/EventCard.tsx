@@ -1,79 +1,103 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import tw from 'tailwind-styled-components';
+/* eslint-disable no-console */
 import moment from 'moment';
 import { Event } from 'services/EventService';
-
-const Item = tw.div`
-bg-gray-100 flex items-center  rounded-sm shadow-sm rounded hover:shadow
-`;
-const Container = tw.div`
-  flex w-full
-`;
-const DateContainer = tw.div`
-p-2
-`;
-const DateContent = tw.div`
-bg-white h-full w-full flex flex-col items-center justify-center px-5 text-lg font-semibold
-`;
-const EventDetails = tw.div`
-font-bold px-2 py-3 h-full flex-1
-`;
+import { Link } from 'react-router-dom';
+import useLeaveEvent from 'hooks/event/useLeaveEvent';
+import useJoinEvent from '../../hooks/event/useJoinEvent';
+import { useUser } from '../../context/auth/auth';
 
 interface ICard {
   event: Event;
 }
 
 export default function EventCard({ event }: ICard) {
+  const { user } = useUser();
+  const { mutate: joinEvent } = useJoinEvent();
+  const { mutate: leaveEvent } = useLeaveEvent();
+  const slots = event.max_players - event.players.length;
+  const days = moment(Date.now()).diff(
+    moment(new Date(event.session_date)),
+    'day',
+  );
+  const eventState = () => {
+    if (days === 0) {
+      return 'bg-yellow-600';
+    }
+    if (days > 0) {
+      return 'bg-red-600 ';
+    }
+    if (days < 0) {
+      return 'bg-green-600';
+    }
+    return '';
+  };
+  const canJoinEvent = slots !== 0 && days <= 0;
+  const isAttending = event.players.find(
+    (player) => player.player_id === user?.id,
+  );
   return (
-    <Item>
-      <Container>
-        <DateContainer>
-          <DateContent>
-            <span className="text-gray-400">
-              {moment(event.session_date).format('DD/MM/YY')}
-            </span>
-            <span className="text-2xl text-gray-800">
-              {moment(event.session_date).format('hh:mm a')}
-            </span>
-          </DateContent>
-        </DateContainer>
-        <EventDetails>
-          <div className="flex flex-col">
-            <h1 className="text-gray-700 text-lg capitalize">{event.title}</h1>
-            <div className="details container flex flex-col gap-x-6 text-gray-500 space-y-1">
-              <p>{event.venue}</p>
-              {/*      eslint-disable-next-line react/jsx-one-expression-per-line */}
-              <p>Cost/Player: ${event.cost}</p>
-              <p>
-                Spaces:
-                <span className="text-gray-100 rounded-full py-0.5 px-2 bg-gray-500">
-                  {event.max_players}
-                </span>
-              </p>
-              <p>
-                Attending:
-                <span className="text-gray-100 rounded-full py-0.5 px-2 bg-gray-500">
-                  {event.players.length}
-                </span>
-              </p>
-            </div>
-            <div className="flex w-full space-x-2 mt-2">
+    <div className="grid grid-cols-2 overflow-hidden rounded-lg ">
+      <div
+        className={`flex flex-col items-center justify-center space-y-1 ${eventState()} p-4  text-2xl italic text-white`}
+      >
+        <span className=" font-bold">
+          {moment(event.session_date).format('Do')}
+        </span>
+        <span className="font-bold">
+          {moment(event.session_date).format('MMM')}
+        </span>
+        <span className="text-md">
+          {moment(event.session_date).format('HH:mm')}
+        </span>
+      </div>
+      <div>
+        <div className="flex flex-col px-2 text-sm">
+          <h2 className="font-bold capitalize">{event.title}</h2>
+          <h3>
+            host:
+            <span className="ml-1 italic">{event.organiser_name}</span>
+          </h3>
+          <h2>
+            Cost:
+            <span className="ml-1">{event.cost}</span>
+          </h2>
+          <p>
+            Number of players:
+            <span className="ml-1">{event.max_players}</span>
+          </p>
+          <p>
+            Available slot:
+            <span className="ml-1">{slots}</span>
+          </p>
+        </div>
+        <div className="flex items-center justify-between  space-x-4 bg-gray-50 py-2 px-1">
+          <Link
+            to={`${event.id}`}
+            type="button"
+            className="px-42 rounded py-2  px-2  text-gray-600 hover:text-blue-400 hover:underline "
+          >
+            View
+          </Link>
+          {canJoinEvent &&
+            (isAttending ? (
               <button
                 type="button"
-                className="w-6/12 p-1 bg-gray-400 hover:bg-gray-600 text-white"
+                className="btn-primary rounded px-2 py-2 font-bold  text-white"
+                onClick={() => leaveEvent(event.id)}
               >
-                View
+                Leave Event
               </button>
+            ) : (
               <button
                 type="button"
-                className="w-6/12 p-1 bg-blue-400 hover:bg-blue-500 text-white"
+                className="btn-primary rounded px-2 py-2 font-bold  text-white"
+                onClick={() => joinEvent(event.id)}
               >
-                Join
+                Join Event
               </button>
-            </div>
-          </div>
-        </EventDetails>
-      </Container>
-    </Item>
+            ))}
+        </div>
+      </div>
+    </div>
   );
 }

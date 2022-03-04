@@ -1,16 +1,10 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import tw from 'tailwind-styled-components';
 import Router from './routes/Router';
-
-const PageContainer = tw.div`
-  flex flex-col bg-white min-h-screen max-w-screen-sm antialiased overflow-x-hidden mx-auto relative
-`;
 
 function App() {
   return (
-    <PageContainer>
+    <div className="relative mx-auto flex min-h-screen max-w-screen-sm flex-col overflow-x-hidden bg-white antialiased">
       <Router />
-    </PageContainer>
+    </div>
   );
 }
 

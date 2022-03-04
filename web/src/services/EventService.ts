@@ -7,7 +7,7 @@ interface Player {
     avatar: string;
 }
 export interface Event {
-    _id: string;
+    id: string;
     title: string;
     session_date: Date;
     created_at: Date;

@@ -1,22 +1,22 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import tw from 'tailwind-styled-components';
 import { Event } from 'services/EventService';
 import { v4 as uuidv4 } from 'uuid';
 import EventCard from './EventCard';
 
-const Items = tw.div`
-flex flex-col mt-2 gap-1 text-sm
-`;
 interface ICards {
   events: Event[];
+  title: string;
 }
 
-export default function EventCards({ events }: ICards) {
+export default function EventCards({ events, title }: ICards) {
   return (
-    <Items>
+    <div className="flex flex-col space-y-3 text-sm">
+      <h2 className="mb-1 py-4  text-3xl font-bold capitalize text-gray-900">
+        {events.length}
+        <span className="ml-2">Events</span>
+      </h2>
       {events.map((event) => (
         <EventCard event={event} key={uuidv4()} />
       ))}
-    </Items>
+    </div>
   );
 }
