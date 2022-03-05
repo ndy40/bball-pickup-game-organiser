@@ -9,7 +9,7 @@ interface ICards {
 
 export default function EventCards({ events, title }: ICards) {
   return (
-    <div className="flex flex-col space-y-3 text-sm">
+    <div className="flex flex-col divide-y-2  text-sm">
       <h2 className="mb-1 py-4  text-3xl font-bold capitalize text-gray-900">
         {events.length}
         <span className="ml-2">Events</span>

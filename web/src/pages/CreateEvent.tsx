@@ -27,8 +27,7 @@ function CreateEvent() {
 
   return (
     <div className="h-full w-full">
-      <h2 className="mb-4 text-center text-3xl font-semibold">Add Event</h2>
-      <form className="form grid gap-5" onSubmit={handleSubmit(onValid)}>
+      <form className="form my-2 grid gap-5" onSubmit={handleSubmit(onValid)}>
         <div>
           <label className="label" htmlFor="title">
             Title
@@ -74,7 +73,7 @@ function CreateEvent() {
         </div>
         <div>
           <label className="label" htmlFor="cost">
-            Cost
+            Cost (£)
           </label>
           <input
             id="cost"
@@ -134,7 +133,11 @@ function CreateEvent() {
           <span className="error">{errors.notes?.message}</span>
         </div>
         <div>
-          <button disabled={!isValid} type="submit" className="btn btn-primary">
+          <button
+            disabled={!isValid}
+            type="submit"
+            className="btn btn-primary mb-2"
+          >
             Create an event
           </button>
         </div>

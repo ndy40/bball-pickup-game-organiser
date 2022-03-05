@@ -39,8 +39,8 @@ function EventList() {
   };
 
   return (
-    <div className="flex flex-1 flex-col py-4">
-      <div className="grid list-none grid-cols-3">
+    <div className="relative flex flex-1 flex-col">
+      <div className="sticky top-0 z-50 grid list-none grid-cols-3 bg-white py-4">
         {tabs.map((tab) => (
           <button
             type="button"

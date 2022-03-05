@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
-import { useUser } from '../../context/auth/auth';
 import { HomeIcon, PlusIcon, LogoutIcon } from '@heroicons/react/outline';
+import { useUser } from '../../context/auth/auth';
 
 const menus = [
   {
@@ -19,7 +19,7 @@ const menus = [
 export default function Footer() {
   const { logout } = useUser();
   return (
-    <div className="fixed bottom-0 left-0 right-0 h-14 w-full border-t border-gray-100 bg-white text-xs shadow">
+    <div className="footer">
       <div className="flex h-full w-full items-center justify-evenly">
         {menus.map((menu) => (
           <NavLink
