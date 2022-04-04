@@ -1,23 +1,14 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { QueryClientProvider } from "react-query";
-import { ReactQueryDevtools } from "react-query/devtools";
-import { Toaster } from "react-hot-toast";
-import { RecoilRoot } from "recoil";
-
-import { queryClient } from "./react-query/query-client";
-import "./index.css";
-import App from "./App";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import ContextWrapper from 'ContextWrapper';
+import App from './App';
 
 ReactDOM.render(
   <React.StrictMode>
-    <RecoilRoot>
-      <QueryClientProvider client={queryClient}>
-        <Toaster />
-        <App />
-        <ReactQueryDevtools />
-      </QueryClientProvider>
-    </RecoilRoot>
+    <ContextWrapper>
+      <App />
+    </ContextWrapper>
   </React.StrictMode>,
-  document.getElementById("root")
+  document.getElementById('root'),
 );

@@ -1,20 +1,26 @@
-import React from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
-import EventList from "components/events/EventList";
-import CreateEvent from "components/events/CreateEvent";
-import Header from "../components/app/Header";
+import { Routes, Route, Navigate } from 'react-router-dom';
+import Events from 'pages/Events';
+import CreateEvent from 'pages/CreateEvent';
+import Footer from 'components/Footer/Footer';
+import Header from '../components/Header/Header';
+import EventDetails from '../pages/EventDetails';
 
-const Authenticated = () => {
+function Authenticated() {
   return (
-    <>
+    <div className="h-screen overflow-hidden">
       <Header />
-      <Routes>
-        <Route path="/create-event" element={<CreateEvent />} />
-        <Route path="/" element={<EventList />} />
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
-    </>
+      <main className="main">
+        <Routes>
+          <Route path="/create" element={<CreateEvent />} />
+          <Route path="/events/:id" element={<EventDetails />} />
+          <Route path="/events/:id" element={<EventDetails />} />
+          <Route path="/events" element={<Events />} />
+          <Route path="*" element={<Navigate to="/events" />} />
+        </Routes>
+      </main>
+      <Footer />
+    </div>
   );
-};
+}
 
 export default Authenticated;

@@ -1,19 +1,11 @@
-import React from "react";
-import Router from "./routes/Router";
-import tw from "tailwind-styled-components";
-import Loading from "components/app/Loading";
+import Router from './routes/Router';
 
 function App() {
   return (
-    <PageContainer>
-      <Loading />
+    <div className="relative mx-auto flex min-h-screen max-w-screen-sm flex-col overflow-x-hidden bg-white antialiased">
       <Router />
-    </PageContainer>
+    </div>
   );
 }
 
 export default App;
-
-const PageContainer = tw.div`
-  flex flex-col bg-white min-h-screen max-w-screen-sm antialiased overflow-x-hidden mx-auto relative
-`;

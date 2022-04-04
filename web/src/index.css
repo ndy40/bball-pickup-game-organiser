@@ -1,3 +1,38 @@
 @tailwind base;
 @tailwind components;
+
+@layer components {
+  .error {
+    @apply text-sm text-red-600;
+  }
+  .btn {
+    @apply w-full rounded-lg p-4 text-white hover:bg-opacity-80 disabled:bg-gray-400;
+  }
+  .btn-primary {
+    @apply bg-red-800;
+  }
+  .input {
+    @apply w-full rounded border border-gray-300 bg-gray-50 p-4 text-lg outline-none
+    placeholder:text-sm placeholder:text-gray-600 focus:border-red-600;
+  }
+  .form {
+    @apply mx-auto flex w-full max-w-sm flex-col  px-2;
+  }
+  .label {
+    @apply mb-1 text-sm  text-gray-600;
+  }
+  .icon {
+    @apply rounded-full bg-gray-100 p-1 text-red-600;
+  }
+  .footer {
+    @apply fixed bottom-0 left-0 right-0 z-50 h-14  text-xs shadow;
+    background: whitesmoke;
+  }
+  .header {
+    @apply fixed top-0 left-0 right-0 z-50 h-14 w-full;
+  }
+  .main {
+    @apply fixed top-14 bottom-14 left-0 right-0 overflow-y-scroll  p-2 px-4 scrollbar-hide;
+  }
+}
 @tailwind utilities;

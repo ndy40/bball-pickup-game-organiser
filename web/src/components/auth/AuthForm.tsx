@@ -1,7 +1,4 @@
-import React from "react";
-import tw from "tailwind-styled-components";
-import { useForm } from "react-hook-form";
-import { Text, Form, Label, Input, FormGroup, Error, Button } from "uitls/GlobalStyles";
+import { useForm } from 'react-hook-form';
 
 export interface IForm {
   username: string;
@@ -13,41 +10,50 @@ interface Props {
   heading: string;
 }
 
-export const AuthForm: React.FC<Props> = ({ btnText, submitForm, heading }) => {
+export default function AuthForm({ btnText, submitForm, heading }: Props) {
   const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm<IForm>();
+    formState: { errors, isValid },
+  } = useForm<IForm>({ mode: 'onChange' });
 
   const onValid = (data: IForm) => {
     submitForm(data);
   };
 
   return (
-    <Container>
-      <Text>{heading}</Text>
-      <Form onSubmit={handleSubmit(onValid)}>
-        <FormGroup>
-          <Label>Username:</Label>
-          <Input
-            {...register("username", {
-              required: "Username is required",
+    <>
+      <p className="mb-4 text-center  font-semibold text-gray-900">{heading}</p>
+      <form
+        className="mx-auto flex w-full max-w-sm flex-col  px-2"
+        onSubmit={handleSubmit(onValid)}
+      >
+        <label htmlFor="username" className="label">
+          Username:
+        </label>
+        <div>
+          <input
+            className="input"
+            {...register('username', {
+              required: 'Username is required',
               minLength: {
                 value: 2,
-                message: "Username must be greater than 2 Characters",
+                message: 'Username must be greater than 2 Characters',
               },
             })}
-            data-testid="add-username"
+            placeholder="Enter username"
           />
-          <Error>{errors.username?.message}</Error>
-        </FormGroup>
-        <Button>{btnText}</Button>
-      </Form>
-    </Container>
-  );
-};
+          <span className="error">{errors.username?.message}</span>
+        </div>
 
-const Container = tw.div`
-w-full max-w-xs mx-auto text-gray-700 
-`;
+        <button
+          disabled={!isValid}
+          type="submit"
+          className="btn btn-primary mt-4"
+        >
+          {btnText}
+        </button>
+      </form>
+    </>
+  );
+}

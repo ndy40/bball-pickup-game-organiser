@@ -1,15 +1,15 @@
-import React from "react";
-import { Route, Routes } from "react-router-dom";
-import Login from "components/auth/Login";
-import Register from "components/auth/Register";
+import { Route, Routes, Navigate } from 'react-router-dom';
+import Login from 'pages/Login';
+import Register from 'pages/Register';
 
-const UnAuthenticated = () => {
+function UnAuthenticated() {
   return (
     <Routes>
       <Route path="/register" element={<Register />} />
-      <Route path="/" element={<Login />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="*" element={<Navigate to="/login" />} />
     </Routes>
   );
-};
+}
 
 export default UnAuthenticated;
